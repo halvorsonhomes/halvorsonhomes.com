@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: designs
+  size: 1
+  alias: design
+permalink: "designs/{{ design.slug }}/"
+---
+<article class="page design-detail">
+  <a href="/designs/" class="back-link">&larr; All Designs</a>
+  <h1>{{ design.name }}</h1>
+
+  <p class="design-meta design-meta--lg">
+    {{ design.bedrooms }} bed &middot; {{ design.bathrooms }} bath &middot; {{ design.sqft }} sq ft
+  </p>
+
+  <p>{{ design.description }}</p>
+
+  {% if design.features %}
+    <h2>Features</h2>
+    <ul>
+      {% for feature in design.features %}
+        <li>{{ feature }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</article>

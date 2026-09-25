@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+title: Designs
+pagination:
+  data: designs
+  size: 6
+---
+<section class="page">
+  <h1>Designs</h1>
+
+  <div class="design-grid">
+    {% for design in pagination.items %}
+      <a href="/designs/{{ design.slug }}/" class="design-card">
+        <h2>{{ design.name }}</h2>
+        <p class="design-meta">{{ design.bedrooms }} bed &middot; {{ design.bathrooms }} bath &middot; {{ design.sqft | comma }} sq ft</p>
+        <p>{{ design.description }}</p>
+        <span class="design-link">View details &rarr;</span>
+      </a>
+    {% else %}
+      <p>No designs yet.</p>
+    {% endfor %}
+  </div>
+
+  {% if pagination.pages.length > 1 %}
+    <nav class="pagination-nav" aria-label="Pagination">
+      {% if pagination.href.previous %}
+        <a href="{{ pagination.href.previous }}">&larr; Previous</a>
+      {% endif %}
+      <span>Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}</span>
+      {% if pagination.href.next %}
+        <a href="{{ pagination.href.next }}">Next &rarr;</a>
+      {% endif %}
+    </nav>
+  {% endif %}
+</section>
