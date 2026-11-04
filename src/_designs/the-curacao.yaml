@@ -1,0 +1,16 @@
+name: The Curacao
+slug: the-curacao
+image: /images/designs/the-curacao/elevation.jpg
+floor_plan: /images/designs/the-curacao/floor-plan.png
+pdf: /images/designs/the-curacao/the-curacao.pdf
+model: /images/designs/the-curacao/the-curacao.glb
+description: A spacious 3 bedroom 2 bath home with a zero corner sliding glass door.
+bedrooms: 3
+bathrooms: 2
+living_sqft: 2307
+total_sqft: 3376
+garage: 3
+features:
+  - Chef's kitchen with island
+  - Large Lanai
+  - Zero Corner Door

@@ -6,22 +6,137 @@ pagination:
   alias: design
 permalink: "designs/{{ design.slug }}/"
 ---
-<article class="page design-detail">
-  <a href="/designs/" class="back-link">&larr; All Designs</a>
-  <h1>{{ design.name }}</h1>
 
-  <p class="design-meta design-meta--lg">
-    {{ design.bedrooms }} bed &middot; {{ design.bathrooms }} bath &middot; {{ design.sqft }} sq ft
-  </p>
+<div class="design-page">
 
-  <p>{{ design.description }}</p>
-
-  {% if design.features %}
-    <h2>Features</h2>
-    <ul>
-      {% for feature in design.features %}
-        <li>{{ feature }}</li>
-      {% endfor %}
+  <div class="design-page__header">
+    <a href="/designs/" class="back-link">&larr; All Designs</a>
+    <h1>{{ design.name }}</h1>
+    <ul class="design-stats">
+      <li><strong>{{ design.bedrooms }}</strong> Bedrooms</li>
+      <li><strong>{{ design.bathrooms }}</strong> Bathrooms</li>
+      <li><strong>{{ design.garage }}</strong> Garage Stalls</li>
+      <li><strong>{{ design.living_sqft | comma }}</strong> Living Sq Ft</li>
+      <li><strong>{{ design.total_sqft | comma }}</strong> Total Sq Ft</li>
     </ul>
+  </div>
+
+  {% if design.slides and design.slides.length %}
+    <div class="photo-carousel" id="photo-carousel">
+      <div class="carousel-track" id="carousel-track">
+        {% for slide in design.slides %}
+          <div class="carousel-slide{% if loop.first %} is-active{% endif %}" data-index="{{ loop.index0 }}">
+            <picture>
+              {% if slide.srcset %}<source srcset="{{ slide.srcset }}" type="image/webp" sizes="100vw">{% endif %}
+              <img src="{{ slide.fallback or slide.src }}"
+                   alt="{{ design.name }}{% if slide.label %} — {{ slide.label }}{% endif %}"
+                   loading="{{ 'eager' if loop.first else 'lazy' }}">
+            </picture>
+          </div>
+        {% endfor %}
+      </div>
+      <button class="carousel-btn carousel-btn--prev" id="carousel-prev" aria-label="Previous photo">&#8249;</button>
+      <button class="carousel-btn carousel-btn--next" id="carousel-next" aria-label="Next photo">&#8250;</button>
+      <div class="carousel-counter">
+        <span id="carousel-current">1</span> / {{ design.slides | length }}
+      </div>
+    </div>
+
+  {% elif design.image %}
+    <div class="design-hero">
+      <img src="{{ design.image }}" alt="{{ design.name }} elevation">
+    </div>
   {% endif %}
-</article>
+
+  <div class="design-page__body">
+    <div class="design-page__main">
+      {% if design.floor_plan_opt or design.floor_plan %}
+        <div class="floor-plan-wrap">
+          <img src="{{ design.floor_plan_opt or design.floor_plan }}"
+               alt="{{ design.name }} floor plan"
+               class="floor-plan-img">
+          <button class="floor-plan-expand" id="floor-plan-expand" aria-label="View full screen">
+            <i class="fa-solid fa-expand" aria-hidden="true"></i>
+          </button>
+        </div>
+      {% endif %}
+    </div>
+
+    <aside class="design-page__aside">
+      {% if design.features %}
+        <h2>Features</h2>
+        <ul class="design-features">
+          {% for feature in design.features %}<li>{{ feature }}</li>{% endfor %}
+        </ul>
+      {% endif %}
+
+      {% if design.pdf or design.model %}
+        <div class="aside-actions">
+          {% if design.pdf %}
+            <a href="{{ design.pdf }}" class="aside-btn" download>
+              <i class="fa-regular fa-file-pdf" aria-hidden="true"></i>
+              Download PDF
+            </a>
+          {% endif %}
+          {% if design.model %}
+            <button class="aside-btn" id="model-btn" data-src="{{ design.model }}">
+              <i class="fa-solid fa-cube" aria-hidden="true"></i>
+              View 3D Model
+            </button>
+          {% endif %}
+        </div>
+      {% endif %}
+    </aside>
+  </div>
+
+</div>
+
+{% if design.slides and design.slides.length %}
+  <script>var DESIGN_SLIDES = {{ design.slides | dump | safe }};</script>
+  <script src="/js/design-detail.js"></script>
+{% endif %}
+
+{% if design.model %}
+  <dialog class="model-dialog" id="model-dialog" aria-label="3D Model Viewer">
+    <button class="model-dialog__close" id="model-dialog-close" aria-label="Close">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <model-viewer id="model-viewer"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      style="width:100%;height:100%;">
+    </model-viewer>
+  </dialog>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@3.5.0/dist/model-viewer.min.js"></script>
+  <script src="/js/model-viewer-dialog.js"></script>
+{% endif %}
+
+{% if design.floor_plan_opt or design.floor_plan %}
+<dialog class="fp-dialog" id="fp-dialog" aria-label="Floor plan viewer">
+  <div class="fp-dialog__toolbar">
+    <span class="fp-zoom-level" id="fp-zoom-level">100%</span>
+    <button class="fp-toolbar-btn" id="fp-zoom-out" aria-label="Zoom out"><i class="fa-solid fa-minus" aria-hidden="true"></i></button>
+    <button class="fp-toolbar-btn" id="fp-zoom-reset" aria-label="Reset zoom"><i class="fa-solid fa-compress" aria-hidden="true"></i></button>
+    <button class="fp-toolbar-btn" id="fp-zoom-in" aria-label="Zoom in"><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+    <button class="fp-toolbar-btn fp-toolbar-btn--close" id="fp-close" aria-label="Close"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
+  </div>
+  <div class="fp-dialog__stage" id="fp-stage">
+    <img class="fp-dialog__img" id="fp-img"
+         src="{{ design.floor_plan_opt or design.floor_plan }}"
+         alt="{{ design.name }} floor plan">
+  </div>
+</dialog>
+<script>var FP_SRC = "{{ design.floor_plan_opt or design.floor_plan }}";</script>
+<script src="/js/floor-plan-viewer.js"></script>
+{% endif %}
+
+<dialog class="lightbox" id="lightbox" aria-label="Photo viewer">
+  <button class="lightbox__close" id="lightbox-close" aria-label="Close">&times;</button>
+  <button class="lightbox__prev"  id="lightbox-prev"  aria-label="Previous">&#8249;</button>
+  <div class="lightbox__img-wrap">
+    <img class="lightbox__img" id="lightbox-img" src="" alt="">
+  </div>
+  <button class="lightbox__next"  id="lightbox-next"  aria-label="Next">&#8250;</button>
+  <p class="lightbox__counter"    id="lightbox-counter"></p>
+</dialog>

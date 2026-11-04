@@ -1,35 +1,75 @@
 ---
 layout: layouts/base.njk
 title: Designs
-pagination:
-  data: designs
-  size: 6
 ---
 <section class="page">
   <h1>Designs</h1>
 
-  <div class="design-grid">
-    {% for design in pagination.items %}
-      <a href="/designs/{{ design.slug }}/" class="design-card">
-        <h2>{{ design.name }}</h2>
-        <p class="design-meta">{{ design.bedrooms }} bed &middot; {{ design.bathrooms }} bath &middot; {{ design.sqft | comma }} sq ft</p>
-        <p>{{ design.description }}</p>
-        <span class="design-link">View details &rarr;</span>
+  <div class="designs-toolbar">
+    <div class="sort-control">
+      <label for="sort-select">Sort by</label>
+      <select id="sort-select">
+        <option value="name-asc">Name (A–Z)</option>
+        <option value="name-desc">Name (Z–A)</option>
+        <option value="living-asc">Living Sq Ft (low–high)</option>
+        <option value="living-desc">Living Sq Ft (high–low)</option>
+        <option value="total-asc">Total Sq Ft (low–high)</option>
+        <option value="total-desc">Total Sq Ft (high–low)</option>
+      </select>
+    </div>
+
+    <div class="filter-control">
+      <button id="filter-btn" class="filter-btn" aria-expanded="false" aria-controls="filter-popover">
+        Filters
+        <span id="filter-badge" class="filter-badge" hidden></span>
+      </button>
+      <div id="filter-popover" class="filter-popover" hidden role="dialog" aria-label="Filter designs">
+        <div class="filter-section">
+          <p class="filter-label">Garage Stalls</p>
+          <label class="filter-option"><input type="checkbox" name="garage" value="2"> 2 Stalls</label>
+          <label class="filter-option"><input type="checkbox" name="garage" value="3"> 3 Stalls</label>
+        </div>
+        <div class="filter-section">
+          <p class="filter-label">Living Sq Ft</p>
+          <div class="filter-range">
+            <input type="number" id="living-min" class="filter-input" placeholder="Min" min="0">
+            <span class="filter-range-sep">–</span>
+            <input type="number" id="living-max" class="filter-input" placeholder="Max" min="0">
+          </div>
+        </div>
+        <button id="filter-clear" class="filter-clear">Clear all</button>
+      </div>
+    </div>
+  </div>
+
+  <p class="designs-count" id="designs-count"></p>
+
+  <div class="design-grid" id="design-grid">
+    {% for design in designs %}
+      <a href="/designs/{{ design.slug }}/" class="design-card"
+         data-name="{{ design.name }}"
+         data-living="{{ design.living_sqft }}"
+         data-total="{{ design.total_sqft }}"
+         data-garage="{{ design.garage }}">
+        {% if design.image %}
+          <img src="{{ design.image }}" alt="{{ design.name }}" class="design-card__img">
+        {% endif %}
+        <div class="design-card__body">
+          <h2>{{ design.name }}</h2>
+          <p class="design-meta">
+            {{ design.bedrooms }} bed &middot; {{ design.bathrooms }} bath &middot; {{ design.garage }}-car garage<br>
+            {{ design.living_sqft | comma }} living sq ft &middot; {{ design.total_sqft | comma }} total sq ft
+          </p>
+          {% if design.description %}<p>{{ design.description }}</p>{% endif %}
+          <span class="design-link">View details &rarr;</span>
+        </div>
       </a>
     {% else %}
       <p>No designs yet.</p>
     {% endfor %}
   </div>
 
-  {% if pagination.pages.length > 1 %}
-    <nav class="pagination-nav" aria-label="Pagination">
-      {% if pagination.href.previous %}
-        <a href="{{ pagination.href.previous }}">&larr; Previous</a>
-      {% endif %}
-      <span>Page {{ pagination.pageNumber + 1 }} of {{ pagination.pages.length }}</span>
-      {% if pagination.href.next %}
-        <a href="{{ pagination.href.next }}">Next &rarr;</a>
-      {% endif %}
-    </nav>
-  {% endif %}
+  <p class="designs-empty" id="designs-empty" hidden>No designs match your filters.</p>
 </section>
+
+<script src="/js/designs.js"></script>
