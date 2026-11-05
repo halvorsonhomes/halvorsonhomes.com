@@ -5,7 +5,6 @@
   "year": "2026",
   "social": [
     { "label": "Facebook", "url": "https://www.facebook.com/HalvorsonHomes", "icon": "fab fa-facebook-f" },
-    { "label": "Instagram", "url": "https://www.instagram.com/halvorsonhomes", "icon": "fab fa-instagram" },
-    { "label": "Houzz", "url": "https://www.houzz.com/professionals/halvorsonhomes", "icon": "fab fa-houzz" }
+    { "label": "Instagram", "url": "https://www.instagram.com/halvorsonhomes", "icon": "fab fa-instagram" }
   ]
 }
