@@ -12,6 +12,7 @@ Static marketing site for Halvorson Homes, a family-operated custom home builder
 | Nunjucks | (bundled) | Templating |
 | Font Awesome | 6.5.1 (CDN) | Icons (PDF, 3D cube, expand, etc.) |
 | Google model-viewer | 3.5.0 (CDN) | 3D model viewer web component |
+| Jarallax | 2.2.0 (CDN) | Parallax scrolling on the services page (JS-based, works on iOS) |
 
 ## Development
 
@@ -28,17 +29,23 @@ src/
 ├── _data/
 │   ├── designs.js      # async data file — reads YAML, processes images through eleventy-img
 │   ├── nav.json        # site navigation items
-│   └── site.json       # site-wide metadata (title, year, url, description)
+│   └── site.json       # site-wide metadata (title, year, url, description, social links)
 ├── _designs/           # one YAML file per home design (see Design YAML below)
 ├── _includes/
 │   └── layouts/
-│       ├── base.njk    # HTML shell, nav, footer
+│       ├── base.njk    # HTML shell, nav, footer; loads jarallax + hamburger JS
+│       ├── home.njk    # full-bleed layout (no constrained .main padding)
 │       └── page.njk    # simple content page wrapper
 ├── css/
 │   └── style.css       # all styles — no preprocessor
 ├── images/
-│   └── designs/
-│       └── {slug}/     # per-design image folder (see Images below)
+│   ├── designs/
+│   │   └── {slug}/     # per-design image folder (see Images below)
+│   └── web/            # web-optimised images (1600px wide, ~82% quality)
+│       ├── svc-construction.jpg
+│       ├── svc-additions.jpg
+│       ├── svc-remodels.jpg
+│       └── svc-builderless.jpg
 ├── js/
 │   ├── designs.js            # sort & filter logic for the designs index
 │   ├── design-detail.js      # photo carousel + lightbox
@@ -47,6 +54,7 @@ src/
 ├── designs/
 │   └── design.njk      # per-design detail page (paginated from designs data)
 ├── designs.njk         # designs index page
+├── services.njk        # services page — four hero sections with parallax
 ├── about.md
 ├── contact.md
 └── index.md
@@ -128,6 +136,88 @@ Client-side only — no server needed. Data attributes on each `.design-card` el
 Edit `src/_data/site.json` to change the site title, copyright year, base URL, or description.
 
 Edit `src/_includes/layouts/base.njk` to change the footer text (license number is there).
+
+## Hero layout
+
+Pages that use the full-bleed hero treatment (homepage, services) set two front-matter flags:
+
+```yaml
+layout: layouts/home.njk
+heroLayout: true
+```
+
+`heroLayout: true` adds `has-hero` to `<body>` and `site-header--transparent` to the header, making the nav float over the first section. The footer is also repositioned to overlay the bottom of the page with a frosted rounded-top-corner band. Any other page can adopt the same treatment with these two flags.
+
+## Services page
+
+`src/services.njk` — four full-bleed sections with jarallax parallax scrolling:
+
+1. **Custom New Construction** — `svc-construction.jpg`
+2. **Additions** — `svc-additions.jpg`
+3. **Remodels** — `svc-remodels.jpg`
+4. **The Builderless Platform** — `svc-builderless.jpg` — design, permitting guidance, curated sub recommendations, in-progress inspections; client remains owner-builder
+
+Each section alternates left/right layout (`.svc__inner--flip`). Testimonials are lorem placeholders — replace the `svc__quote` and `svc__attr` content when real ones are available.
+
+## Social links
+
+Stored in `src/_data/site.json` under `social[]`. Currently placeholders — update URLs before launch:
+
+```json
+"social": [
+  { "label": "Facebook", "url": "https://www.facebook.com/HalvorsonHomes", "icon": "fab fa-facebook-f" },
+  { "label": "Instagram", "url": "https://www.instagram.com/halvorsonhomes", "icon": "fab fa-instagram" }
+]
+```
+
+The array is looped in `index.md` to render the floating pill on the homepage hero. Add or remove entries here to change what appears.
+
+## Web-optimised images
+
+Raw camera files (7–10 MB) are **not** used directly on the site. Resized copies live in `src/images/web/` (1600px wide, ~82% JPEG quality, EXIF stripped — 250–600 KB each). When adding new photos for the services page or hero, run:
+
+```bash
+magick input.jpg -resize 1600x -quality 82 -strip src/images/web/output.jpg
+```
+
+Design detail pages use the eleventy-img pipeline instead (see **Image pipeline** above).
+
+## Hamburger nav
+
+The mobile nav (≤600px) is a hamburger toggle built into `base.njk`. The button animates to an X when open. On pages with `heroLayout: true` the open drawer uses a dark frosted style; on other pages it's white. No external library — plain JS in the base layout.
+
+---
+
+## ⚠️ TODO before launch
+
+### Copy to write
+- [ ] Real testimonials for all four services sections (currently lorem ipsum)
+- [ ] Service descriptions for Custom New Construction, Additions, and Remodels (Builderless is written)
+- [ ] About page content
+- [ ] Contact page content
+
+### Photos needed
+- [ ] **Homepage hero** — currently using the Curacao elevation shot (`svc-construction.jpg`). Replace with a hero-worthy image when available.
+- [ ] **Custom New Construction section** — dedicated photo (currently Curacao elevation)
+- [ ] **Additions section** — dedicated photo (currently Curacao interior)
+- [ ] **Remodels section** — dedicated photo (currently Curacao interior)
+- [ ] **The Builderless Platform section** — dedicated photo (currently Curacao interior)
+- [ ] **Other designs** — these folders are empty and need photos + YAML before they appear on the designs index: `the-cayo-costa`, `the-grand-bahama`, `the-islamorada`, `the-martinique`, `the-st-lucia`, `the-st-lucia-convertable`, `the-st-maarten`
+
+  When adding photos for any service section, compress first:
+  ```bash
+  magick input.jpg -resize 1600x -quality 82 -strip src/images/web/svc-NAME.jpg
+  ```
+  Then update the `background-image` URL in `src/services.njk`.
+
+### Data to update
+- [ ] Real Facebook URL in `src/_data/site.json`
+- [ ] Real Instagram URL in `src/_data/site.json`
+- [ ] Confirm copyright year in `site.json` stays current
+
+### Future features (parked)
+- [ ] Email signup — add to homepage once a content/newsletter pipeline is in place
+- [ ] Services sub-pages — each service could get its own detail page as content grows
 
 ## License
 
