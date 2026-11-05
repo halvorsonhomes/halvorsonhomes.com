@@ -516,6 +516,9 @@ body.has-hero .site-footer {
   padding: 1rem 2rem;
   z-index: 2;
   backdrop-filter: blur(4px);
+  border-radius: 12px 12px 0 0;
+  left: 2rem;
+  right: 2rem;
 }
 
 body.has-hero .main {
