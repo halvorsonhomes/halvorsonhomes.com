@@ -1,8 +1,18 @@
 ---
 title: Home
-layout: layouts/page.njk
+layout: layouts/home.njk
+heroLayout: true
+description: Southwest Florida's custom home builder. Quality craftsmanship, thoughtful design.
 ---
 
-Welcome to Halvorson Homes — your trusted partner in finding the perfect home.
-
-Whether you're buying, selling, or just exploring, we're here to help every step of the way.
+<section class="hero" style="background-image: url('/images/designs/the-curacao/elevation.jpg')">
+  <div class="hero__overlay"></div>
+  <div class="hero__content">
+    <h1 class="hero__headline"><em>Built for the<br>way you live.</em></h1>
+    <p class="hero__sub">Southwest Florida's custom home builder — quality craftsmanship, thoughtful design, every detail considered.</p>
+    <div class="hero__actions">
+      <a href="/designs/" class="btn btn--primary">View Our Designs</a>
+      <a href="/contact/" class="btn btn--outline">Get in Touch</a>
+    </div>
+  </div>
+</section>
