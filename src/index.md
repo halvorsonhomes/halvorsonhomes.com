@@ -15,4 +15,11 @@ description: Southwest Florida's custom home builder. Quality craftsmanship, tho
       <a href="/contact/" class="btn btn--outline">Get in Touch</a>
     </div>
   </div>
+  <div class="hero__social">
+    {% for item in site.social %}
+      <a href="{{ item.url }}" class="hero__social-link" aria-label="{{ item.label }}" target="_blank" rel="noopener">
+        <i class="{{ item.icon }}"></i>
+      </a>
+    {% endfor %}
+  </div>
 </section>
