@@ -911,3 +911,116 @@ body.has-hero .main {
   color: #888;
   font-size: 0.9rem;
 }
+
+/* ── Services page ───────────────────────────────────────── */
+
+.main:has(.services-page) {
+  max-width: none;
+  padding: 0;
+}
+
+.svc {
+  position: relative;
+  min-height: 70vh;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+}
+
+.svc__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.1) 100%);
+}
+
+.svc__overlay--right {
+  background: linear-gradient(to left, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 60%, rgba(0,0,0,0.1) 100%);
+}
+
+.svc__inner {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 4rem 2rem 4rem 4rem;
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+}
+
+.svc__inner--flip {
+  padding: 4rem 4rem 4rem 2rem;
+  flex-direction: row-reverse;
+}
+
+.svc__body {
+  flex: 1;
+  color: #fff;
+}
+
+.svc__num {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.svc__title {
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1.1;
+  margin: 0 0 1rem;
+}
+
+.svc__desc {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: rgba(255,255,255,0.85);
+  max-width: 32rem;
+  margin: 0;
+}
+
+.svc__testimonial {
+  flex: 0 0 22rem;
+  margin: 0;
+  padding: 1.75rem;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  border-radius: 10px;
+  border-left: 3px solid rgba(255,255,255,0.25);
+  color: #fff;
+}
+
+.svc__quote {
+  font-size: 1rem;
+  font-style: italic;
+  line-height: 1.65;
+  margin: 0 0 1rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.svc__attr {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.55);
+  font-style: normal;
+}
+
+@media (max-width: 768px) {
+  .svc__inner,
+  .svc__inner--flip {
+    flex-direction: column;
+    padding: 3rem 1.5rem;
+    gap: 2rem;
+  }
+
+  .svc__testimonial {
+    flex: none;
+    width: 100%;
+  }
+}

@@ -1,6 +1,7 @@
 [
   { "label": "Home", "url": "/" },
   { "label": "Designs", "url": "/designs/" },
+  { "label": "Services", "url": "/services/" },
   { "label": "About", "url": "/about/" },
   { "label": "Contact", "url": "/contact/" }
 ]
