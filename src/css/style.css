@@ -634,7 +634,7 @@ body.has-hero .main {
   background: rgba(0,0,0,0.35);
   backdrop-filter: blur(4px);
   border-radius: 999px;
-  padding: 0.4rem 0.5rem;
+  padding: 0.5rem;
 }
 
 .hero__social-link {
