@@ -5,7 +5,7 @@ heroLayout: true
 description: Southwest Florida's custom home builder. Quality craftsmanship, thoughtful design.
 ---
 
-<section class="hero" style="background-image: url('/images/designs/the-curacao/elevation.jpg')">
+<section class="hero" style="background-image: url('/images/web/svc-construction.jpg')">
   <div class="hero__overlay"></div>
   <div class="hero__content">
     <h1 class="hero__headline"><em>Built for the<br>way you live.</em></h1>
