@@ -14,9 +14,11 @@ body {
   position: sticky;
   top: 0;
   z-index: 20;
-  border-bottom: 1px solid #e5e5e5;
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
   padding: 1rem 2rem;
-  background: #fff;
+  background: rgba(221, 221, 221, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .nav {
@@ -632,8 +634,10 @@ body.has-hero .main {
 }
 
 .site-header--transparent.is-scrolled {
-  background: #fff;
-  border-bottom: 1px solid #e5e5e5;
+  background: rgba(221, 221, 221, 0.85);
+  border-bottom: 1px solid rgba(200, 200, 200, 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .site-header--transparent.is-scrolled .nav-logo,
