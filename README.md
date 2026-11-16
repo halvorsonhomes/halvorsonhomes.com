@@ -217,6 +217,7 @@ The mobile nav (≤600px) is a hamburger toggle built into `base.njk`. The butto
 
 ### Future features (parked)
 - [ ] Email signup — add to homepage once a content/newsletter pipeline is in place
+- [ ] **Homepage hero video** — interior drone fly-through of a finished home: in through the front door, straight through the house, and out the sliders. Slow, steady, landscape, 10–20 seconds so it loops cleanly as a silent background. Keep the single hero photo until this footage exists.
 - [ ] Services sub-pages — each service could get its own detail page as content grows
 
 ## License
