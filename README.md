@@ -182,17 +182,13 @@ magick input.jpg -resize 1600x -quality 82 -strip src/images/web/output.jpg
 
 Design detail pages use the eleventy-img pipeline instead (see **Image pipeline** above).
 
-## Hamburger nav
-
-The mobile nav (≤600px) is a hamburger toggle built into `base.njk`. The button animates to an X when open. On pages with `heroLayout: true` the open drawer uses a dark frosted style; on other pages it's white. No external library — plain JS in the base layout.
-
 ---
 
 ## ⚠️ TODO before launch
 
 ### Copy to write
 - [ ] Real testimonials for all four services sections (currently lorem ipsum)
-- [ ] Service descriptions for Custom New Construction, Additions, and Remodels (Builderless is written)
+- [ ] Service descriptions for Custom New Construction and Additions (Remodels and Builderless are written)
 - [ ] About page content
 - [ ] Contact page content
 
