@@ -11,10 +11,12 @@ body {
 }
 
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 20;
   border-bottom: 1px solid #e5e5e5;
   padding: 1rem 2rem;
+  background: #fff;
 }
 
 .nav {
@@ -619,13 +621,34 @@ body.has-hero .main {
 }
 
 .site-header--transparent {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 20;
   border-bottom: none;
   background: transparent;
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+
+.site-header--transparent.is-scrolled {
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.site-header--transparent.is-scrolled .nav-logo,
+.site-header--transparent.is-scrolled .nav-links a {
+  color: inherit;
+}
+
+.site-header--transparent.is-scrolled .nav-links a:hover,
+.site-header--transparent.is-scrolled .nav-links a[aria-current="page"] {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.site-header--transparent.is-scrolled .nav-toggle span {
+  background: #333;
 }
 
 .site-header--transparent .nav-logo,
